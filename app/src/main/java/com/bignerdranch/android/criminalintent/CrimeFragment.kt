@@ -20,7 +20,7 @@ private const val TAG = "CrimeFragment"
 private const val ARG_CRIME_ID = "crime_id"
 private const val REQUEST_DATE = 0
 class CrimeFragment: Fragment(), DatePickerFragment.Callbacks {
-    
+
 
     /*here we created the crimefragment and attached the model crime properties in model crime class to this fragment*/
     private lateinit var crime: Crime
@@ -67,7 +67,7 @@ class CrimeFragment: Fragment(), DatePickerFragment.Callbacks {
         super.onViewCreated(view, savedInstanceState)
 
         crimeDetailViewModel.crimeLiveData.observe(viewLifecycleOwner, androidx.lifecycle.Observer { crime -> crime?.let { this.crime = crime
-        updateUI()} })
+            updateUI()} })
     }
     override fun onStart() {
         super.onStart()
@@ -103,15 +103,15 @@ class CrimeFragment: Fragment(), DatePickerFragment.Callbacks {
 
         solvedCheckBox.apply {
             setOnCheckedChangeListener{ _,
-                isChecked ->
-            crime.isSolved = isChecked}
+                                        isChecked ->
+                crime.isSolved = isChecked}
         }
 
         dateButton.setOnClickListener {
             DatePickerFragment.newInstance(crime.date).apply {
                 setTargetFragment(this@CrimeFragment, REQUEST_DATE)
                 show(this@CrimeFragment.requireFragmentManager(),
-                DIALOG_DATE) }
+                    DIALOG_DATE) }
         }
     }
 
