@@ -4,8 +4,9 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -24,6 +25,8 @@ class CrimeListFragment : Fragment() {
 
     private var callbacks: Callbacks? = null
 
+    private lateinit var empty:LinearLayout
+    private lateinit var emptyButton:Button
     private lateinit var crimeRecyclerView: RecyclerView
 //    private var adapter: CrimeAdapter? = null
 
@@ -61,6 +64,17 @@ class CrimeListFragment : Fragment() {
         crimeRecyclerView.layoutManager = LinearLayoutManager(context)
         crimeRecyclerView.adapter = adapter
 
+        empty = view.findViewById(R.id.emptyView)
+        emptyButton = view.findViewById(R.id.emptyViewButton)
+
+        emptyButton.setOnClickListener {
+            val crime = Crime()
+
+            crimeListViewModel.addCrime(crime)
+
+            callbacks?.onCrimeSelected(crime.id)
+            true
+        }
 //        updateUI()
         return view
     }
@@ -70,7 +84,8 @@ class CrimeListFragment : Fragment() {
         
         crimeListViewModel.crimeListLiveData.observe(
             viewLifecycleOwner, Observer { crimes -> crimes?.let { Log.i(TAG, "Got crimes ${crimes.size}")
-            updateUI(crimes)} }
+            updateUI(crimes)
+            emptyView(crimes)} }
         )
     }
 
@@ -143,11 +158,21 @@ class CrimeListFragment : Fragment() {
             val crime = crimes[position]
             holder.bind(crime)
         }
-
     }
     companion object {
         fun newInstance(): CrimeListFragment {
             return CrimeListFragment()
         }
     }
+
+    fun emptyView(crimes: List<Crime>){
+        val ca = CrimeAdapter(crimes)
+        if (ca.itemCount == 0){
+            empty.visibility = View.VISIBLE
+            crimeRecyclerView.visibility = View.GONE
+        } else
+            empty.visibility = View.GONE
+        crimeRecyclerView.visibility = View.VISIBLE
+    }
+
 }
