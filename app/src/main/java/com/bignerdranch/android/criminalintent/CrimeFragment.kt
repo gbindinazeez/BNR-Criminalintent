@@ -14,6 +14,7 @@ import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.*
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
@@ -29,6 +30,7 @@ private const val REQUEST_DATE = 0
 private const val REQUEST_CONTACT = 1
 private const val REQUEST_PHOTO = 2
 private const val DATE_FORMAT = "EEE, MMM, dd"
+private const val DIALOG_PICTURE = "dialogpicture"
 class CrimeFragment: Fragment(), DatePickerFragment.Callbacks {
 
 
@@ -43,6 +45,8 @@ class CrimeFragment: Fragment(), DatePickerFragment.Callbacks {
     private lateinit var suspectButton: Button
     private lateinit var photoView: ImageView
     private lateinit var photoButton: ImageButton
+    private var photoWidth: Int=0
+    private var photoHeight: Int =0
 
     private val crimeDetailViewModel: CrimeDetailViewModel by lazy {
         ViewModelProvider(this).get(CrimeDetailViewModel::class.java)
@@ -66,15 +70,7 @@ class CrimeFragment: Fragment(), DatePickerFragment.Callbacks {
         val view = inflater.inflate(R.layout.fragment_crime, container, false)
 
         titleField = view.findViewById(R.id.crime_title) as EditText
-
         dateButton = view?.findViewById(R.id.crime_date) as Button
-
-        /*dateButton.apply {
-            text = crime.date.toString()
-            isEnabled = true
-        }*/
-
-
         solvedCheckBox = view.findViewById(R.id.crime_solved) as CheckBox
         reportButton = view.findViewById(R.id.crime_report) as Button
         suspectButton = view.findViewById(R.id.crime_suspect) as Button
@@ -90,7 +86,11 @@ class CrimeFragment: Fragment(), DatePickerFragment.Callbacks {
         crimeDetailViewModel.crimeLiveData.observe(viewLifecycleOwner, androidx.lifecycle.Observer { crime -> crime?.let { this.crime = crime
             photoFile = crimeDetailViewModel.getPhotoFile(crime)
             photoUri = FileProvider.getUriForFile(requireActivity(),"com.bignerdranch.android.criminalintent.fileprovider",photoFile)
-        updateUI()} })
+        updateUI()
+        val observer = photoView.viewTreeObserver
+        val listener = ViewTreeObserver.OnGlobalLayoutListener {
+            updatePhotoView()
+        }} })
     }
     override fun onStart() {
         super.onStart()
@@ -180,6 +180,12 @@ class CrimeFragment: Fragment(), DatePickerFragment.Callbacks {
                 }
                 startActivityForResult(captureImage, REQUEST_PHOTO)
             }
+        }
+
+        photoView.setOnClickListener {
+            val packageManager= parentFragmentManager
+            val dialog = PictureDisplayFragment.newInstance(photoFile)
+            dialog.show(packageManager, DIALOG_PICTURE)
         }
     }
 
