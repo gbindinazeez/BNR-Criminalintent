@@ -19,6 +19,7 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import java.io.File
+import java.text.DateFormat.getDateInstance
 import java.util.*
 
 private const val DIALOG_DATE = "DialogDate"
@@ -196,7 +197,9 @@ class CrimeFragment: Fragment(), DatePickerFragment.Callbacks {
 
     private fun updateUI(){
         titleField.setText(crime.title)
-        dateButton.text = crime.date.toString()
+
+        val localizedDate = getDateInstance().format(crime.date)
+        dateButton.text = localizedDate
         solvedCheckBox.apply {
             isChecked = crime.isSolved
             // does not show animation
