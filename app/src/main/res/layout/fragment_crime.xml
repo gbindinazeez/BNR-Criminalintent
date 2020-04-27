@@ -68,6 +68,11 @@
         android:layout_height="wrap_content"
         android:text="@string/crime_details_label"/>
 
+    <TextView
+        android:text="@string/crime_date_label_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:labelFor="@+id/crime_date"/>
     <Button
         android:id="@+id/crime_date"
         android:layout_width="match_parent"
@@ -81,16 +86,37 @@
         android:text="@string/crime_solved_label"
         android:minHeight="48dp"/>
 
+    <TextView
+        android:text="@string/crime_suspect_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:labelFor="@+id/crime_suspect"/>
     <Button
         android:id="@+id/crime_suspect"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/crime_suspect_text"/>
 
+    <TextView
+        android:text="@string/crime_report_label_share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:labelFor="@+id/crime_report"/>
     <Button
         android:id="@+id/crime_report"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/crime_report_text"/>
+
+    <TextView
+        android:text="@string/call_suspect_label_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:labelFor="@+id/crime_call"/>
+    <Button
+        android:id="@+id/crime_call"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/call_suspect"/>
 
 </LinearLayout>
