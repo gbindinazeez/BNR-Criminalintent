@@ -133,7 +133,7 @@ class CrimeFragment: Fragment(), DatePickerFragment.Callbacks {
         dateButton.setOnClickListener {
             DatePickerFragment.newInstance(crime.date).apply {
                 setTargetFragment(this@CrimeFragment, REQUEST_DATE)
-                show(this@CrimeFragment.requireFragmentManager(),
+                show(this@CrimeFragment.parentFragmentManager,
                 DIALOG_DATE) }
         }
 
@@ -211,10 +211,11 @@ class CrimeFragment: Fragment(), DatePickerFragment.Callbacks {
     fun updatePhotoView(){
         if (photoFile.exists()){
             val bitmap = getScaledBitmap(photoFile.path,requireActivity())
-
             photoView.setImageBitmap(bitmap)
+            photoView.contentDescription = getString(R.string.crime_photo_image_description)
         }else {
             photoView.setImageDrawable(null)
+            photoView.contentDescription = getString(R.string.crime_photo_no_image_description)
         }
     }
 

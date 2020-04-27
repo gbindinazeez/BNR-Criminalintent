@@ -24,13 +24,15 @@
             android:layout_height="80dp"
             android:scaleType="centerInside"
             android:cropToPadding="true"
-            android:background="@android:color/darker_gray"/>
+            android:background="@android:color/darker_gray"
+            android:contentDescription="@string/crime_photo_no_image_description" />
 
         <ImageButton
             android:id="@+id/crime_camera"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_camera"/>
+            android:src="@android:drawable/ic_menu_camera"
+            android:contentDescription="@string/crime_photo_button_description"/>
 
     </LinearLayout>
 
@@ -52,7 +54,8 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/crime_title_hint"
                 android:autofillHints="@string/crime_title_hint"
-                android:inputType="text" />
+                android:inputType="text"
+                android:minHeight="48dp"/>
 
         </LinearLayout>
 
@@ -75,7 +78,8 @@
         android:id="@+id/crime_solved"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/crime_solved_label"/>
+        android:text="@string/crime_solved_label"
+        android:minHeight="48dp"/>
 
     <Button
         android:id="@+id/crime_suspect"
